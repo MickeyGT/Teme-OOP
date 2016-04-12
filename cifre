@@ -1,0 +1,153 @@
+#include<iostream>
+#include<fstream>
+#include<conio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<list>
+#include<bitset>
+#include<vector>
+
+using namespace std;
+
+void f(char l[3][255], int s)
+{
+    static int ok,sum,i=0,cc,k,z,j,b=0,fr[10],nr1,okk=0,poz,nr_poz;
+    static int c[100],v[21],pos[21][20];
+    char t[10][10]={" _ | ||_|","     |  |"," _  _||_ "," _  _| _|", "   |_|  |", " _ |_  _|"," _ |_ |_|"," _   |  |", " _ |_||_|"," _ |_| _|"};
+    char cif[3][3];
+    while(i<strlen(l[0])){
+        ok=0;
+        nr1=0;
+        memset(c,0,sizeof(c));
+        for(j=0;j<3;++j)
+            {
+                cif[0][j]=l[0][i+j];
+                cif[1][j]=l[1][i+j];
+                cif[2][j]=l[2][i+j];
+            }
+        for(k=0;k<10;++k){
+            cc=0;
+            for(z=0;z<3;++z)
+                for(j=0;j<3;++j)
+                    if(cif[z][j]!=t[k][cc++] ){
+                        if(cif[z][j]=='|' || cif[z][j]=='_')
+                            c[k]=2;
+                        else c[k]++;
+                    }
+        }
+        cc=0;
+        for(k=0;k<10;++k){
+            if(c[k]==0){
+                fr[k]++;
+                ok=1;
+                sum+=k;
+                v[++b]=k;
+                for(k=0;k<10;++k)
+                    if(c[k]==1)
+                        pos[b][++pos[b][0]]=k;
+            }
+            else if(c[k]==1) nr1++;
+        }
+        if(ok==0 && okk==0)
+        {
+            if(nr1==0){
+                cout<<"Numar invalid";
+                return;
+            }
+            else if(nr1>1){
+                okk=2;
+                poz=++b;
+                for(k=0;k<10;++k)
+                    if(c[k]==1)
+                        pos[b][++pos[b][0]]=k;
+            }
+            else{
+                okk=1;
+                for(k=0;k<10;++k)
+                    if(c[k]==1){
+                        sum+=k;
+                        fr[k]++;
+                        v[++b]=k;
+                    }
+            }
+        }
+        else if(!ok && okk!=0){
+            cout<<"Numar invalid";
+            return ;
+        }
+        i+=5;
+    }
+    nr_poz=0;
+    if(okk==2){
+        for(k=1;k<=pos[poz][0];++k)
+            if(sum+pos[poz][k]==s){
+                v[poz]=pos[poz][k];
+                nr_poz++;
+            }
+        if(nr_poz==1){
+            cout<<"Numarul este:";
+            for(j=1;j<=b;++j)
+                cout<<v[j];
+            return;
+        }
+        else if(nr_poz>1){
+            cout<<"Solutii multiple";
+            return;
+        }
+        else{
+            cout<<"Numar invalid";
+            return ;
+        }
+    }
+    else if(okk==1){
+        if(sum==s){
+            cout<<"Numarul este:";
+            for(j=1;j<=b;++j)
+                cout<<v[j];
+        }
+        else{
+            cout<<"Numar invalid";
+            return ;
+        }
+    }
+    else{
+        if(sum==s){
+            cout<<"Numarul este:";
+            for(j=1;j<=b;++j)
+                cout<<v[j];
+        }
+        else{
+            for(k=1;k<=b;++k)
+                for(j=1;j<=pos[k][0];++j)
+                    if(sum-v[k]+pos[k][j]==s){
+                        nr_poz++;
+                        v[k]=pos[k][j];
+                    }
+            if(nr_poz==1)
+            {
+                cout<<"Numarul este:";
+                for(j=1;j<=b;++j)
+                    cout<<v[j];
+            }
+            else if(nr_poz>1){
+                cout<<"Solutii multiple";
+                return;
+            }
+            else{
+                cout<<"Numar invalid";
+                return;
+            }
+        }
+    }
+}
+
+int main(int argc, char **argv)
+{
+    ifstream in("cifre.in");
+    char l[3][255];
+    in.getline(l[0],255);
+    in.getline(l[1], 255);
+    in.getline(l[2], 255);
+    f(l, 42);
+    return 0;
+}
