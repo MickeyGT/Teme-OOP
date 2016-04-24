@@ -1,0 +1,96 @@
+#include<iostream>
+#include<fstream>
+#include<conio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<list>
+#include<bitset>
+#include<vector>
+
+using namespace std;
+
+void f(char l[3][255], int s)
+{
+    static int o,Y,i,r,k,z,j,b,a,Q,A,p,c[10],L,v[21],Z[21][20];
+    char t[10][10]={" _ | ||_|","     |  |"," _  _||_ "," _  _| _|", "   |_|  |", " _ |_  _|"," _ |_ |_|"," _   |  |", " _ |_||_|"," _ |_| _|"};
+    while(i<strlen(l[0])){
+        o=a=0;
+        memset(c,0,sizeof(c));
+        for(k=0;k<10;++k){
+            for(z=0;z<3;++z)
+                for(j=0;j<3;++j)
+                    if(l[z][i+j]!=t[k][r++])
+                        c[k]+=l[z][i+j]!=' '?2:1;
+            r=0;
+        }
+        for(k=0;k<10;++k){
+            if(!c[k]){
+                o=1;
+                Y+=k;
+                v[++b]=k;
+                for(k=0;k<10;++k)
+                    if(c[k]==1)Z[b][++Z[b][0]]=k;
+            }
+            else if(c[k]==1) a++;
+        }
+        if(!o && !Q)
+        {
+            if(!a)L=1;
+            else{
+                A=++b;
+                Q=1;
+                for(k=0;k<10;++k)
+                    if(c[k]==1)
+                        Z[b][++Z[b][0]]=k;
+            }
+        }
+        else if(!o&Q)L=1;
+        i+=5;
+    }
+    if(L==1){
+        cout<<"Numar invalid";
+        return;
+    }
+    /*if(Q==2){
+        for(k=1;k<=Z[A][0];++k)
+            if(Y+Z[A][k]==s){
+                v[A]=Z[A][k];
+                p++;
+            }
+    }*/
+    if(Q){
+        if(Y==s)L=2;
+        else{
+            if(Q){
+                cout<<"Numar invalid";
+                return;
+            }
+            else{
+                for(k=1;k<=b;++k)
+                    for(j=1;j<=Z[k][0];++j)
+                        if(Y-v[k]+Z[k][j]==s){
+                            p++;
+                            v[k]=Z[k][j];
+                        }
+            }
+        }
+    }
+    if(p==1||L==2){
+        cout<<"Numarul este:";
+        for(j=1;j<=b;++j)
+            cout<<v[j];
+    }
+    else if(p>1)cout<<"Solutii multiple";
+    else cout<<"Numar invalid";
+}
+
+int main(int argc, char **argv)
+{
+    ifstream in("cifre.in");
+    char l[3][255];
+    in.getline(l[0],255);
+    in.getline(l[1], 255);
+    in.getline(l[2], 255);
+    f(l, 43);
+    return 0;
+}
