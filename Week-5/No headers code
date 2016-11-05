@@ -1,0 +1,127 @@
+#include <iostream>
+#include<math.h>
+#include"Geometry.h"
+using namespace std;
+class CPunct  //clasa de baza
+{
+protected:
+	int x, y;
+public:
+	void SetPunct(int xi, int yi)
+	{
+		x = xi;
+		y = yi;
+	}
+};
+
+class CDreapta : public CPunct
+{
+private:
+	int x, y;
+	double length;
+public:
+	double getlength()
+	{
+		length = sqrt((CPunct::x - this->x)*(CPunct::x - this->x) + (CPunct::y - this->y)*(CPunct::y - this->y));
+		return sqrt((CPunct::x - this->x)*(CPunct::x - this->x) + (CPunct::y - this->y)*(CPunct::y - this->y));
+	}
+	void buildanddisplay()
+	{
+		cout <<"Lungimea dreptei este: "<<sqrt((CPunct::x - this->x)*(CPunct::x - this->x) + (CPunct::y - this->y)*(CPunct::y - this->y))<<'\n';
+	}
+	void setcords(int c1, int c2, int c3, int c4)
+	{
+		CPunct::x = c3;
+		CPunct::y = c4;
+		this->x = c1;
+		this->y = c2;
+	}
+};
+
+class CCerc : public CPunct
+{
+private:
+	int raza;
+public:
+	void setraza(int r)
+	{
+		raza = r;
+	}
+	void calcaria()
+	{
+		double aria = 3.14*raza*raza;
+		cout << "Aria cercului este: " << aria<<'\n';
+	}
+	void calperim()
+	{
+		double perim = 3.14*raza*2;
+		cout << "Perimetrul cercului este: " << perim << '\n';
+	}
+};
+
+class CDreptunghi : public CDreapta
+{
+private:
+	CDreapta D1;
+public:
+	void calcaria()
+	{
+		double l1, l2;
+		D1.setcords(1, 0, 3, 0);
+		setcords(1, 0, 1, 4);
+		l1 = CDreapta::getlength();
+		l2 = D1.getlength();
+		double aria = l1*l2;
+		cout << "Aria dreptunghiului este: " << aria << '\n';
+	}
+	void calperim()
+	{
+		double l1, l2;
+		D1.setcords(1, 0, 3, 0);
+		setcords(1, 0, 1, 4);
+		l1 = CDreapta::getlength();
+		l2 = D1.getlength();
+		double perim = l1 * 2 + l2 * 2;
+		cout << "Perimetrul dreptunghiului este: " << perim << '\n';
+	}
+};
+class CPatrat : public CDreapta
+{
+private:
+public:
+	void calcaria()
+	{
+		double l1;
+		setcords(1, 0, 1, 2);
+		l1 = CDreapta::getlength();
+		double aria = l1*l1;
+		cout << "Aria patratului este: " << aria << '\n';
+	}
+	void calperim()
+	{
+		double l1;
+		setcords(1, 0, 1, 2);
+		l1 = CDreapta::getlength();
+		double perim = l1 * 4;
+		cout << "Perimetrul patratului este: " << perim << '\n';
+	}
+};
+int main()
+{
+	CPunct P1;
+	P1.SetPunct(1, 2);
+	CDreapta D1;
+	D1.setcords(1, 0, 3, 0);
+	D1.buildanddisplay();
+	CCerc cerc;
+	cerc.setraza(4);
+	cerc.calcaria();
+	cerc.calperim();
+	CDreptunghi drept;
+	drept.calcaria();
+	drept.calperim();
+	CPatrat patrat;
+	patrat.calcaria();
+	patrat.calperim();
+	return 0;
+}
