@@ -1,0 +1,59 @@
+#include <iostream>
+#include<math.h>
+using namespace std;
+class carte;
+class abonat
+{
+private:
+	struct abonatul
+	{
+		int numar;
+		char nume[100];
+		char adresa[100];
+	}el;
+public:
+	friend carte;
+	void addabonat(int nr, char nm[100], char adr[100])
+	{
+		el.numar = nr;
+		strcpy(el.nume, nm);
+		strcpy(el.adresa, adr);
+	}
+	void cautnume(char nm[100])
+	{
+		if (strcmp(nm, el.nume) == 0)
+		{
+			cout << "Numarul de telefon asociat numelui "<<nm<<" este: " << el.numar << '\n';
+		}
+	}
+};
+class carte
+{
+private:
+	abonat a[10];
+	int nr = 0;
+public:
+	void cauta(char nm[100])
+	{
+		for (int i = 1; i <= nr; i++)
+			a[i].cautnume(nm);
+	}
+	void adauga(int nr, char nm[100], char adr[100])
+	{
+		this->nr++;
+		cout << "Am adaugat abonatul al " << this->nr << "-lea cu numarul " << nr << " ,numele " << nm << " si adresa " << adr<<'\n';
+		a[this->nr].addabonat(nr, nm, adr);
+	}
+};
+int main()
+{
+	carte book;
+	book.adauga(1, "Alex", "Craiova");
+	book.adauga(2, "Gigi", "DJ");
+	book.adauga(3, "Wasdasd", "Venus");
+	book.adauga(5, "X", "Olanda");
+	book.cauta("Alex");
+	book.cauta("Wasdasd");
+	book.cauta("X");
+	return 0;
+}
