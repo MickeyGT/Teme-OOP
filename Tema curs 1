@@ -1,1 +1,71 @@
-#
+import sys
+
+def display():
+    print ('Ce tip de afisare doriti?')
+    print ('Optiunea 1: Matrice de adiacenta.')
+    print ('Optiunea 2: Lista de adiacenta. ')
+    type = input('Selectati optiunea ')
+    if type == '1':
+        print('Afisam matricea de adiacenta:\n')
+        for i in range(1,n+1):
+            for j in range(1,n+1):
+                if matAdiac[i][j] != 0:
+                    sys.stdout.write('1 ')
+                else:
+                    sys.stdout.write('0 ')
+            print('\n')
+    elif type == '2':
+        print('Afisam lista de adiacenta:\n')
+        for i in range(1,n+1):
+             print('Nodul ',i,':',*list[i], sep=' ')
+    else:
+        print('Optiunea aleasa este gresita, va rog alegeti iar. ')
+        display()
+
+def create():
+    global n,m,list,matAdiac
+    n = input('Cate noduri sa aiba graful? ')
+    n = int (n)
+    #list ne va pastra listele de adiacenta pentru nodurile din graf.
+    list=[[]for y in range(100)]
+    matAdiac=[[0 for x in range(100)]for y in range(100)]
+    m = input('Cate muchii sa aiba graful? ')
+    m = int(m)
+    print ('Citim cele ',m,' muchii:')
+    for i in range(1,m+1):
+        print('Nodul x se va leaga de nodul y')
+        x = int(input('x = '))
+        y = int(input('y = '))
+        list[x].append(y)
+        matAdiac[x][y]=1
+        list[y].append(x)
+        matAdiac[y][x]=1    
+        
+def menu():
+    print ('Meniul problemei:')
+    print ('Optiunea 1: Crearea grafului.')
+    print ('Optiunea 2: Afisarea grafului.')
+    print ('Optiunea 3: Determinarea componentelor conexe ale grafului.')
+    print ('Optiunea 4: Determinarea daca graful contine cicluri.')
+    print ('Optiunea 5: Determinirea celui mai scurt drum si a celui mai lung drum intre doua noduri din graf.')
+    type = input('Selectati optiunea ')
+    if type == '1':
+        create()
+        menu()
+    elif type == '2':
+        display()
+        menu()
+    elif type == '3':
+        displaycompconx()
+        menu()
+    elif type == '4':
+        findcycle() 
+        menu()
+    elif type == '5':
+        paths()
+        menu()
+    else:
+        print('Optiunea aleasa este gresita, va rog alegeti iar. ')
+        menu()
+
+menu()
