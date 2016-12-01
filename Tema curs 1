@@ -55,6 +55,22 @@ def displaycompconx():
             del comp[:]
     print('\n')
 
+def graphisconex():
+    global viz,comp
+    comp=[]
+    viz=[0 for x in range(100)]
+    nr=0
+    for i in range(1,n+1):
+        if viz[i]==0:
+            viz[i]=1
+            dfs(i)
+            nr=nr+1
+    if nr==1:
+        print('Graful este unul conex')
+    else:
+        print('Graful nu este conex')
+    print('\n')    
+
 def create():
     global n,m,list,matAdiac
     n = input('Cate noduri sa aiba graful? ')
@@ -74,14 +90,38 @@ def create():
         list[y].append(x)
         matAdiac[y][x]=1 
     print('\n')   
+
+def paths():
+    print ('Ce drum doriti sa aflati?')
+    print ('Optiunea 1: Cel mai lung drum intre doua noduri din graf.')
+    print ('Optiunea 2: Lista de adiacenta. ')
+    type = input('Selectati optiunea ')
+    if type == '1':
+        print('Afisam matricea de adiacenta:\n')
+        for i in range(1,n+1):
+            for j in range(1,n+1):
+                if matAdiac[i][j] != 0:
+                    sys.stdout.write('1 ')
+                else:
+                    sys.stdout.write('0 ')
+            print('\n')
+    elif type == '2':
+        print('Afisam lista de adiacenta:\n')
+        for i in range(1,n+1):
+             print('Nodul ',i,':',*list[i], sep=' ')
+    else:
+        print('Optiunea aleasa este gresita, va rog alegeti iar. ')
+        display()
+    print('\n')    
+
         
 def menu():
     print ('Meniul problemei:')
     print ('Optiunea 1: Crearea grafului.')
     print ('Optiunea 2: Afisarea grafului.')
-    print ('Optiunea 3: Determinarea componentelor conexe ale grafului.')
-    print ('Optiunea 4: Determinarea daca graful contine cicluri.')
-    print ('Optiunea 5: Determinirea celui mai scurt drum si a celui mai lung drum intre doua noduri din graf.')
+    print ('Optiunea 3: Determinirea daca graful este conex.')
+    print ('Optiunea 4: Determinarea componentelor conexe ale grafului.')
+    print ('Optiunea 5: Determinarea daca graful contine cicluri.')
     type = input('Selectati optiunea ')
     if type == '1':
         print('\n')
@@ -93,9 +133,13 @@ def menu():
         menu()
     elif type == '3':
         print('\n')
-        displaycompconx()
+        graphisconex()
         menu()
     elif type == '4':
+        print('\n')
+        displaycompconx()
+        menu()
+    elif type == '5':
         print('\n')
         global ok,viz 
         ok=0
