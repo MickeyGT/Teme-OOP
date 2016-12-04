@@ -1,6 +1,7 @@
 import sys
 global ok
 def display():
+    #the 2 available options for displaying the graph.
     print ('What kind of display do you want?')
     print ('Option 1: Adjacency Matrix.')
     print ('Option 2: Adjacency List.')
@@ -95,7 +96,8 @@ def create():
     n = int (n)
     #list will hold the adjacency list for all our nodes.
     list=[[]for y in range(100)]
-    #matAdiac will hold the adjacency matrix for all our nodes.(1 if we have a path from i to j and 0 if not)
+    #matAdiac will hold the adjacency matrix for all our nodes.
+    #(1 if we have a path from i to j and 0 if not)
     matAdiac=[[0 for x in range(100)]for y in range(100)]
     #m will hold the number of edges our graph will have.
     m = input('How many edges will the graph have? ')
