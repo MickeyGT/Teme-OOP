@@ -45,9 +45,9 @@ def findcycle(nod):
             #for each node connected to i
             for j in list[i]:
                 #if it has been visited before and not by nod, then we have a cycle.
-                if viz[j]==1 & j!=nod:
-                    #ok is the value that will tell us if we have a cycle or not.
+                if viz[j]==1 and j!=nod:
                     ok=1
+                    #ok is the value that will tell us if we have a cycle or not.
             findcycle(i)
              
 def displaycompconx():
