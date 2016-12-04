@@ -12,6 +12,8 @@ def display():
         for i in range(1,n+1):
             for j in range(1,n+1):
                 if matAdiac[i][j] != 0:
+                    #I've used sys.stdout.write here because print would print a newline
+                    #everytime I'd use it and I didn't want that.
                     sys.stdout.write('1 ')
                 else:
                     sys.stdout.write('0 ')
@@ -33,7 +35,8 @@ def dfs(nod):
     for i in list[nod]:
         if viz[i]==0:
             viz[i]=1
-            #comp is a list that will hold the elements in the current conex component.
+            #comp is a list that will hold the 
+            #elements in the current conex component.
             comp.append(i)
             dfs(i)
 
@@ -41,7 +44,9 @@ def findcycle(nod):
     global ok
     #for each node connected to nod
     for i in list[nod]:
+        #if it hasn't been visited.
         if viz[i]==0:
+            #we mark it as visited.
             viz[i]=1
             #for each node connected to i
             for j in list[i]:
@@ -150,7 +155,8 @@ def menu():
         #ok is the variabile that will hold the answer to the question if the graph has any cycles. 
         ok=0
         viz=[0 for x in range(100)]
-        #we have to do this for every node that has not been visited because we could find a cycle inside another conex component of the graph.
+        #we have to do this for every node that has not been visited 
+        #because we could find a cycle inside another conex component of the graph.
         for k in range(1,n+1):
             if viz[k]==0:
                 viz[k]=1
@@ -158,14 +164,12 @@ def menu():
         if ok==1:
             print('The graph contains at least 1 cycle.\n')
         else:
-            print('The graph contains no cycles.\n') 
-        menu()
-    elif type == '5':
-        print('\n')
-        paths()
+            print('The graph does NOT contain any cycles.\n') 
         menu()
     elif type == '6': 
         print('Program will now close.')
+        #not re-calling the menu the way we did with the 
+        #other options so the program can now close.
     else:
         #menu for when an invalid option is picked.
         print('\n')
@@ -173,5 +177,7 @@ def menu():
         menu()
     print('\n')
 
-#first call of the menu function. It only needs to be called once because after each operation the menu just gets called again.
+#first call of the menu function. 
+#It only needs to be called once because after 
+#each operation the menu just gets called again.
 menu()
