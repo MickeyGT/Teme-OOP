@@ -107,10 +107,10 @@ public:
 int main()
 {
     CPunct *v[10];
-    v[1]=new CDreptunghi(2,0,0,0,0,3)
+    v[1]=new CDreptunghi(2,0,0,0,0,3);
     v[1]->calperim();
     v[2]=new CPatrat(0,0,5,0);
-    v[2]->calcperim();
+    v[2]->calperim();
     v[3]=new CCerc(0,0,5,0);
     v[3]->calperim();
 	return 0;
