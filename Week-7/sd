@@ -1,0 +1,117 @@
+
+#include <iostream>
+#include<math.h>
+using namespace std;
+class CPunct  //clasa de baza
+{
+public:
+    double x, y;
+	void SetPunct(double xi, double yi)
+	{
+		x = xi;
+		y = yi;
+	}
+	virtual void calperim(){};
+};
+
+class CDreapta : public CPunct
+{
+private:
+	int x, y;
+	double length;
+public:
+	double getlength()
+	{
+		length = sqrt((CPunct::x - this->x)*(CPunct::x - this->x) + (CPunct::y - this->y)*(CPunct::y - this->y));
+		return sqrt((CPunct::x - this->x)*(CPunct::x - this->x) + (CPunct::y - this->y)*(CPunct::y - this->y));
+	}
+	void buildanddisplay()
+	{
+		cout <<"Lungimea dreptei este: "<<sqrt((CPunct::x - this->x)*(CPunct::x - this->x) + (CPunct::y - this->y)*(CPunct::y - this->y))<<'\n';
+	}
+	void setcords(int c1, int c2, int c3, int c4)
+	{
+		CPunct::x = c3;
+		CPunct::y = c4;
+		this->x = c1;
+		this->y = c2;
+	}
+	    void calperim()
+    {
+        cout<<'xd';
+    };
+};
+
+class CCerc : public CPunct
+{
+private:
+	CPunct D1;
+public:
+	CCerc(double x1,double y1,double x2,double y2)
+    {
+        this->x=x1;
+        this->y=y1;
+        D1.SetPunct(x2,y2);
+    }
+	void calperim()
+	{
+	    int l1;
+	    l1 = sqrt((D1.x - this->x)*(D1.x - this->x) + (D1.y - this->y)*(D1.y - this->y));
+		double raza = 3.14*l1*2;
+		cout << "Perimetrul cercului este: " << raza << '\n';
+	}
+};
+
+class CDreptunghi : public CPunct
+{
+private:
+	CPunct D1,D2;
+public:
+    CDreptunghi(double x1,double y1,double x2,double y2,double x3,double y3)
+    {
+        this->x=x1;
+        this->y=y1;
+        D1.SetPunct(x2,y2);
+        D2.SetPunct(x3,y3);
+    }
+	void calperim()
+	{
+		double l1, l2;
+        l1 = sqrt((D1.x - this->x)*(D1.x - this->x) + (D1.y - this->y)*(D1.y - this->y));
+        l2 = sqrt((D1.x - D2.x)*(D1.x - D2.x) + (D1.y - D2.y)*(D1.y - D2.y));
+		double perim = l1 * 2 + l2 * 2;
+		cout << "Perimetrul dreptunghiului este: " << perim << '\n';
+	}
+};
+
+class CPatrat : public CPunct
+{
+private:
+    CPunct D1;
+public:
+    CPatrat(double x1,double y1,double x2,double y2)
+    {
+        this->x=x1;
+        this->y=y1;
+        D1.SetPunct(x2,y2);
+    }
+	void calperim()
+	{
+		double l1;
+        l1 = sqrt((D1.x - this->x)*(D1.x - this->x) + (D1.y - this->y)*(D1.y - this->y));
+		double perim = l1 * 4;
+		cout << "Perimetrul patratului este: " << perim << '\n';
+	}
+};
+
+int main()
+{
+    CPunct *v[10];
+    v[1]=new CDreptunghi(2,0,0,0,0,3)
+    v[1]->calperim();
+    v[2]=new CPatrat(0,0,5,0);
+    v[2]->calcperim();
+    v[3]=new CCerc(0,0,5,0);
+    v[3]->calperim();
+	return 0;
+}
