@@ -15,6 +15,7 @@
 #include<iomanip>
 #include<bitset>
 using namespace std;
+int n;
 class complex
 {
 private:
@@ -54,6 +55,15 @@ public:
 		complex nr;
 		nr.a = this->a * el.a - this->b * el.b;
 		nr.b = this->b + el.a + this->a*el.b;
+		return nr;
+	}
+	// (x1x2+y1y1+i(x2y1-x1y2))/x2^2+x1^2
+	complex operator /(const complex &el)
+	{
+		complex nr;
+		int aux = el.a*el.a + el.b*el.b;
+		nr.a = (this->a*el.a + this->b*el.b) / aux;
+		nr.b = (this->b*el.a - this->a*el.b) / aux;
 		return nr;
 	}
 	
@@ -99,5 +109,34 @@ int main()
 	~nr4;
 	nr4 ^ 3;
 	nr4.afisare();
+	complex nr5(4, 6);
+	nr4 = nr5 / nr3;
+	nr4.afisare();
+	cout << "Citim n: ";
+	cin >> n;
+	cout << "Citim cele 2*n numere:\n";
+	complex *numbers[100];
+	for (int i = 1; i <= 2*n; i++)
+	{
+		int x, y;
+		cout << "a= ";
+		cin >> x;
+		cout << "b= ";
+		cin >> y;
+		numbers[i] = new complex(x, y);
+	}
+	complex rezultat,i1,i2,i3;
+	for (int i = 1; i <= 2 * n - 1; i += 2)
+	{
+		*numbers[i] ^ 3;
+		i1 = i1 + *numbers[i];
+	}
+	for (int i = 2; i <= 2 * n; i += 2)
+	{
+		*numbers[i] ^ 4;
+		i2 = i2 + *numbers[i];
+	}
+	rezultat = i1 / i2;
+	rezultat.afisare();
 	return 0;
 }
