@@ -53,6 +53,7 @@ class matrice
 private:
 	int n, mat[100][100];
 public:
+	int sum;
 	void creare()
 	{
 		cout << "Ce dimensiuni sa aiba matricea?:\n";
@@ -62,6 +63,7 @@ public:
 			{
 				cout << "vec[" << j << "][" << k << "]=";
 				cin >> mat[j][k];
+				sum += mat[j][k];
 			}
 		cout << "\n";
 	}
@@ -77,14 +79,13 @@ public:
 		}
 		cout << "\n";
 	}
-	
 };
 
 template <> class sortare <matrice>
 {
 private:
 	int siz;
-	matrice mat[100];
+	matrice mat[10];
 public:
 	void creare()
 	{
@@ -103,10 +104,21 @@ public:
 			mat[i].afisare();
 		}
 	}
+	void sorteaza()
+	{
+		cout << "Se sorteaza sirul.\n\n";
+		for (int i = 1; i <= siz-1; i++)
+			for(int j=i+1;j<=siz;j++)
+				if (mat[i].sum > mat[j].sum)
+				{
+					matrice el = mat[i];
+					mat[i] = mat[j];
+					mat[j] = el;
+				}
+	}
 };
 int main()
 {
-	/*
 	sortare<int> myints;
 	sortare<string> mystrings;
 	sortare<float>myfloats;
@@ -122,9 +134,10 @@ int main()
 	myfloats.afisare();
 	myfloats.sorteaza();
 	myfloats.afisare();
-	*/
 	sortare<matrice>mymatrix;
 	mymatrix.creare();
+	mymatrix.afisare();
+	mymatrix.sorteaza();
 	mymatrix.afisare();
 	return 0;
 }
