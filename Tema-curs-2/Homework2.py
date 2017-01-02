@@ -8,8 +8,8 @@ class derivate:
             #givenfunct is the function that has been given to us in the input
             self.givenfunct=name
         def recognize(self,string):        
-            if string[0]=='1':
-                oneperx(self,string)
+            if string[0:2]=='1/':
+                    self.expresie=self.expresie+str(int(self.coef)*-1*int(string[6:len(string)-1]))+'/(X**'+str(int(string[6:len(string)-1])+1)+')'
             elif string=='X':
                 self.expresie=self.expresie+str(int(self.coef)*1)
                 return
@@ -61,6 +61,11 @@ class derivate:
                 self.recognize(self.funct)
                 self.expresie=self.expresie + self.givenfunct[0:1]
                 self.givenfunct=self.givenfunct[1:len(self.givenfunct)]
+            for i in range(0,len(self.expresie)-1):
+                if self.expresie[i:i+2]=='+-':
+                    self.expresie=self.expresie[:i]+self.expresie[i+1:len(self.expresie)]
+                elif self.expresie[i:i+2]=='-+':
+                    self.expresie=self.expresie[:i+1]+self.expresie[i+2:len(self.expresie)]
             
 
 def menu():
@@ -91,9 +96,10 @@ def menu():
 #first call of the menu function. 
 #It only needs to be called once because after 
 #each operation the menu just gets called again.
-expr='5*X**3+2*X**2+X'
+expr='5*X**3+2*X**2+5/(X**2)'
 deriv =derivate (expr)
 print (deriv.expresie)
 print (deriv.givenfunct)
 deriv.precompute()
+print (deriv.expresie)
 menu()
