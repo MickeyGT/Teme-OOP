@@ -7,15 +7,22 @@ class derivate:
             self.expresie=""
             #givenfunct is the function that has been given to us in the input
             self.givenfunct=name
-        def recognize(self,string):        
+
+        #function that will recognize what function we deal with and calculate the derivate.
+        def recognize(self,string):   
+            #case for when we have something like 1/(X**n)     
             if string[0:2]=='1/':
                     self.expresie=self.expresie+str(int(self.coef)*-1*int(string[6:len(string)-1]))+'/(X**'+str(int(string[6:len(string)-1])+1)+')'
+            #case for when we only have X
             elif string=='X':
                 self.expresie=self.expresie+str(int(self.coef)*1)
                 return
+            #case for when we have something like X**n
             elif string[0:3]=='X**':
+                #int(string[3:6]) actually is the power of n.
                 self.coef=int(self.coef)*int(string[3:6])
                 if self.coef!=1:
+                    #the following if is needed for when the power n equals to 1.
                     if int(string[3:6])-1!=1:
                         self.expresie=self.expresie+str(self.coef)+'*X**'+str(int(string[3:6])-1)
                     else:
@@ -24,27 +31,32 @@ class derivate:
                      self.expresie=self.expresie+'X**'+str(int(string[3:6])-1)
         #this function gets us the coefficient and the function so we can derivate the function after
         def getCoefAndFunction(self,string):
-             for i in range(0,len(string)):
-                if string[i]=='*':
-                    #if the coeficient is multiplied to the function, then the coeficient is the 
-                    #first part of the string until * and the function is the part after the *
-                    self.coef=string[0:i]
-                    self.funct=string[i+1:len(string)]
-                    return 
-                elif string[i]=='/':
-                    #if however we have / then the coeficient is the first part of the string until /
-                    #but the function is going to be something like this '/(x+1)' so we have to add a 1.
-                    self.coef=string[0:i]
-                    self.funct="1"+string[i:len(string)]
-                    return
-             self.coef='1'
-             self.funct=string
-             return
+            if string[0]!='X':
+                for i in range(0,len(string)):
+                    if string[i]=='*':
+                        #if the coeficient is multiplied to the function, then the coeficient is the 
+                        #first part of the string until * and the function is the part after the *
+                        self.coef=string[0:i]
+                        self.funct=string[i+1:len(string)]
+                        return 
+                    elif string[i]=='/':
+                        #if however we have / then the coeficient is the first part of the string until /
+                        #but the function is going to be something like this '/(x+1)' so we have to add a 1.
+                        self.coef=string[0:i]
+                        self.funct="1"+string[i:len(string)]
+                        return
+                self.coef='1'
+                self.funct=string
+                return
+            else:
+                self.coef='1'
+                self.funct=string
+                return
  
         #this function will get us the current function and coefficient we're going to derivate.
         def getexp(self,string):
             for i in range(0,len(string)):
-                if string[i]=='+' or string[i]=='-':
+                if string[i]=='+' or (string[i]=='-'and i!=0):
                     funct=string[0:i]
                     self.givenfunct=self.givenfunct[i:len(string)]
                     return funct
@@ -59,6 +71,7 @@ class derivate:
                 self.coef='1'
                 self.getCoefAndFunction(current)
                 self.recognize(self.funct)
+                #if self.expresie!='' and (self.expresie[len(self.expresie)-1]!='+' and self.expresie[len(self.expresie)-1]!='-'):
                 self.expresie=self.expresie + self.givenfunct[0:1]
                 self.givenfunct=self.givenfunct[1:len(self.givenfunct)]
             for i in range(0,len(self.expresie)-1):
@@ -70,17 +83,29 @@ class derivate:
 
 def menu():
     print ('Menu of the problem:')
-    print ('Option 1: Read the expression:.')
+    print ('Option 1: Read the expression: ')
     print ('Option 2: Calculate and print the derivate equivalent.')
     print ('Option 3: Exit.')
     type = input('Please select an option: ')
     if type == '1':
-        print('\n')
-        deriv.precompute()
+        global expr
+        expr=''
+        inpt=input('Write the expression: ')
+        for i in range(0,len(inpt)):
+            if inpt[i]=='x':
+                expr+='X'
+            else:
+                expr+=inpt[i]
         menu()
     elif type == '2':
         print('\n')
-        display()
+        deriv =derivate (expr)
+        deriv.precompute()
+        print('The derivated expression is: ')
+        if(deriv.expresie==''):
+            print('0')
+        else:
+            print (deriv.expresie)
         menu()
     elif type == '3': 
         print('Program will now close.')
@@ -93,13 +118,9 @@ def menu():
         menu()
     print('\n')
 
+#creating the object we will be working with.
+
 #first call of the menu function. 
 #It only needs to be called once because after 
 #each operation the menu just gets called again.
-expr='5*X**3+2*X**2+5/(X**2)'
-deriv =derivate (expr)
-print (deriv.expresie)
-print (deriv.givenfunct)
-deriv.precompute()
-print (deriv.expresie)
 menu()
