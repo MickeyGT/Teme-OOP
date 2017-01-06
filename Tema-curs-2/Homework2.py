@@ -29,6 +29,7 @@ class derivate:
                         self.expresie=self.expresie+str(self.coef)+'*X'
                 else:
                      self.expresie=self.expresie+'X**'+str(int(string[3:6])-1)
+
         #this function gets us the coefficient and the function so we can derivate the function after
         def getCoefAndFunction(self,string):
             if string[0]!='X':
@@ -45,6 +46,7 @@ class derivate:
                         self.coef=string[0:i]
                         self.funct="1"+string[i:len(string)]
                         return
+                #in case there is no function, the coef will be 1 and the function will be the entire string
                 self.coef='1'
                 self.funct=string
                 return
@@ -56,6 +58,7 @@ class derivate:
         #this function will get us the current function and coefficient we're going to derivate.
         def getexp(self,string):
             for i in range(0,len(string)):
+                #we use + and - to separate simple functions between each other for when we derivate them.
                 if string[i]=='+' or (string[i]=='-'and i!=0):
                     funct=string[0:i]
                     self.givenfunct=self.givenfunct[i:len(string)]
@@ -68,19 +71,25 @@ class derivate:
             while(self.givenfunct):
                 #current will hold the function and coefficient that will be derivated.
                 current = self.getexp(self.givenfunct)
+                #coef will be 1 at first
                 self.coef='1'
+                #we call this function so that we can separate the coefficient from the function.
                 self.getCoefAndFunction(current)
+                #the recognize function will now recognize what derivate it is and apply the respective formula while keeping in mind the coef
                 self.recognize(self.funct)
-                #if self.expresie!='' and (self.expresie[len(self.expresie)-1]!='+' and self.expresie[len(self.expresie)-1]!='-'):
-                self.expresie=self.expresie + self.givenfunct[0:1]
+                #this if is so we don't have 2 signs one after another if we have derivates equal to 0
+                if self.expresie!='' and (self.expresie[len(self.expresie)-1]!='+' and self.expresie[len(self.expresie)-1]!='-'):
+                    self.expresie=self.expresie + self.givenfunct[0:1]
+                #this deletes the first character which is the sign between 2 functions that will need to be derivated
                 self.givenfunct=self.givenfunct[1:len(self.givenfunct)]
+            #this for is needed in case we have 2 consecutive signs due to number signs and operation sign
             for i in range(0,len(self.expresie)-1):
                 if self.expresie[i:i+2]=='+-':
                     self.expresie=self.expresie[:i]+self.expresie[i+1:len(self.expresie)]
                 elif self.expresie[i:i+2]=='-+':
                     self.expresie=self.expresie[:i+1]+self.expresie[i+2:len(self.expresie)]
             
-
+#menu function that will take care of handling the input.
 def menu():
     print ('Menu of the problem:')
     print ('Option 1: Read the expression: ')
@@ -91,6 +100,8 @@ def menu():
         global expr
         expr=''
         inpt=input('Write the expression: ')
+        #this is needed in case the user writes the function with x because the 
+        #program only works with X
         for i in range(0,len(inpt)):
             if inpt[i]=='x':
                 expr+='X'
@@ -99,9 +110,11 @@ def menu():
         menu()
     elif type == '2':
         print('\n')
+        #creating the object we will be working with.
         deriv =derivate (expr)
         deriv.precompute()
         print('The derivated expression is: ')
+        #in case the derivate function only consists of constants.
         if(deriv.expresie==''):
             print('0')
         else:
@@ -118,7 +131,6 @@ def menu():
         menu()
     print('\n')
 
-#creating the object we will be working with.
 
 #first call of the menu function. 
 #It only needs to be called once because after 
