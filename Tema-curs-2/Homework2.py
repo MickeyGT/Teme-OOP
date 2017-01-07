@@ -1,6 +1,8 @@
 import sys
 class derivate:
+
         givenfunct=""
+
         #initialization function that will prepare for the precompute function.
         def __init__(self,name):
             #expresie will hold the final derivate espression.
@@ -29,11 +31,14 @@ class derivate:
                         self.expresie=self.expresie+str(self.coef)+'*X'
                 else:
                      self.expresie=self.expresie+'X**'+str(int(string[3:6])-1)
+            #the case for + and - are covered by the main function since they do not require to be derivated.
 
         #this function gets us the coefficient and the function so we can derivate the function after
         def getCoefAndFunction(self,string):
             if string[0]!='X':
                 for i in range(0,len(string)):
+                    #our function will be consisted of X and one of the two operators
+                    #however, if it doesn't contain an operator then we consider the entire string as a function.
                     if string[i]=='*':
                         #if the coeficient is multiplied to the function, then the coeficient is the 
                         #first part of the string until * and the function is the part after the *
@@ -51,6 +56,7 @@ class derivate:
                 self.funct=string
                 return
             else:
+            #this case is for when we are dealing with a constant.
                 self.coef='1'
                 self.funct=string
                 return
@@ -75,7 +81,8 @@ class derivate:
                 self.coef='1'
                 #we call this function so that we can separate the coefficient from the function.
                 self.getCoefAndFunction(current)
-                #the recognize function will now recognize what derivate it is and apply the respective formula while keeping in mind the coef
+                #the recognize function will now recognize what derivate it is 
+                #and apply the respective formula while keeping in mind the coef
                 self.recognize(self.funct)
                 #this if is so we don't have 2 signs one after another if we have derivates equal to 0
                 if self.expresie!='' and (self.expresie[len(self.expresie)-1]!='+' and self.expresie[len(self.expresie)-1]!='-'):
@@ -86,7 +93,7 @@ class derivate:
             for i in range(0,len(self.expresie)-1):
                 if self.expresie[i:i+2]=='+-':
                     self.expresie=self.expresie[:i]+self.expresie[i+1:len(self.expresie)]
-                elif self.expresie[i:i+2]=='-+':
+                elif self.expresie[i:i+2]=='-+' or self.expresie[i:i+2]=='--':
                     self.expresie=self.expresie[:i+1]+self.expresie[i+2:len(self.expresie)]
             
 #menu function that will take care of handling the input.
@@ -97,28 +104,33 @@ def menu():
     print ('Option 3: Exit.')
     type = input('Please select an option: ')
     if type == '1':
+        #expr will hold the function only with "X"
         global expr
         expr=''
+        #we will convert all the "x" from the inpt string to "X" and store the resoult in expr.
         inpt=input('Write the expression: ')
-        #this is needed in case the user writes the function with x because the 
-        #program only works with X
+        #this is needed in case the user writes the function with "x" 
+        #because the program only works with "X"
         for i in range(0,len(inpt)):
             if inpt[i]=='x':
                 expr+='X'
             else:
                 expr+=inpt[i]
+        print('\n')
         menu()
     elif type == '2':
         print('\n')
         #creating the object we will be working with.
         deriv =derivate (expr)
+        #calling the precompute function that will derivate the function and store it in expresie
         deriv.precompute()
         print('The derivated expression is: ')
-        #in case the derivate function only consists of constants.
+        #in case the given function only consisted of constants and its derivate is nothing.
         if(deriv.expresie==''):
             print('0')
         else:
             print (deriv.expresie)
+        print('\n')
         menu()
     elif type == '3': 
         print('Program will now close.')
